@@ -12,12 +12,12 @@ class DB_connection:
                 host="localhost",
                 user="root",
                 password="1234",
-                database="Intelligence_db",
             )
 
     def create_database(self):
         with self.connection.cursor() as cur:
             cur.execute("CREATE DATABASE IF NOT EXISTS Intelligence_db")
+        self.connection.database = "Intelligence_db"
         self.commit()
 
     def create_tables(self):
@@ -59,4 +59,4 @@ class DB_connection:
 
 
 
-db = DB_connection()
+dB_connection = DB_connection()
