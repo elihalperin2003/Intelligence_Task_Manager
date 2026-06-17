@@ -1,5 +1,3 @@
-import mysql.connector
-
 from db_connection import dB_connection
 
 class AgentDB:
@@ -16,7 +14,7 @@ class AgentDB:
                 """, (name,specialty,agent_rank)
             )
             self.conn.commit()
-        return {"message": f"{name} - created successfully"}
+        return f"{name} - created successfully"
     
     def get_all_agents(self):
         with self.cursor(dictionary=True) as cur:
@@ -31,25 +29,74 @@ class AgentDB:
         return data
     
     def update_agent(self, id, data:dict):
-        
-        keys = ", ".join(k for k in data.keys())
-        values = tuple(k for k in data.values())
-        sql_txt = f"UPDATE agents({keys}) VALUES("
-        sql_txt += ", ".join(["%s" * len(values)])
-        sql_txt += ") WHERE id = %s"
-        print(sql_txt)
-        # sql_txt = f"""
-        #             UPDATE agents({keys})
-        #             VALUES({", ".join("%s" * len(values))})
-        #             WHERE id = f{"%s"}
-        #             """
+        keys = ", ".join(f"{k} = %s" for k in data.keys())
+        values = tuple(v for v in data.values()) + (id,)
         with self.cursor(dictionary=True) as cur:
-            cur.execute(sql_txt,(*values,id))
-        return {"message": f"{id} - created successfully"}
+            cur.execute(
+                f"""
+                UPDATE agents
+                SET {keys}
+                WHERE id = {"%s"}
+                """, (values)
+            )
+            self.conn.commit()
+        return f"{id} - created successfully"
 
     def deactivate_agent(self, id):
         with self.cursor() as cur:
-            cur.execute("")
+            cur.execute("UPDATE agents SET is_active = FALSE WHERE ID = %s", (id,))
+            self.conn.commit()
+        return f"{id} - deactivated successfully"
+    
+    def increment_completed(self,id):
+        with self.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE agents
+                SET completed_missions = completed_missions + 1
+                WHERE ID = %s
+                """, (id,)
+            )
+            self.conn.commit()
+        return f"{id} - updated successfully"
+    
+    def increment_failed(self,id):
+        with self.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE agents
+                SET failed_missions = failed_missions + 1
+                WHERE ID = %s
+                """, (id,)
+            )
+            self.conn.commit()
+        return f"{id} - updated successfully"
+
+    # def get_agent_performance(self,id):
+    #     total = 
+    #     failed = 
+    #     complated = 
+    #     success_rate = round(complated / failed * 100,2)
+    #     return {"total": total, "failed": failed, "complated": complated, "success_rate": success_rate}
+
+    def count_active_agents(self):
+        with self.cursor() as cur:
+            cur.execute(
+                """
+                SELECT COUNT(*)
+                FROM agents
+                WHERE is_active = TRUE
+                """
+            )
+            data = cur.fetchone()
+        return data[0]
+
+
+
+
 agent_db = AgentDB(dB_connection)
 
-# print(agent_db.get_all_agents())
+print(agent_db.get_all_agents())
+print(agent_db.count_active_agents())
+
+#agent_db.update_agent(2,{"name": "lam", "specialty": "poops"})
