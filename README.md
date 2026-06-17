@@ -85,6 +85,7 @@ INT	NULL
 חוקים כלליים לכל המתודות
 
 בכל מקום שלא נכתב במפורש מה להחזיר צריך להחזיר הודעת הצלחה או כישלון
+
 כל מקום שצריך להחזיר רשימה אם לא נמצאו נתונים מחזיר רשימה ריקה
 
 ---
@@ -109,10 +110,10 @@ get_all_agents()
 מחזירה רשימת כל הסוכנים
 
 get_agent_by_id(id)
-מחזירה סוכן אחד לפי ID, או None
+מחזירה סוכן אחד לפי מספר הזיהוי
 
 update_agent(id, data)
-UPDATE לכל השורה (אין אפשרות לשנות id)
+מעדכן את כל השורה לא כולל מספר הזיהוי
 
 deactivate_agent(id)
 מגדירה מצב סוכן ללא פעיל
@@ -125,6 +126,7 @@ increment_failed(id)
 
 get_agent_performance(id)
 מחזירה מילון עם המפתחות האלו
+
 completed, failed, total, success_rate
 
 count_active_agents()
@@ -140,7 +142,7 @@ get_all_missions()
 מחזירה את כל המשימות
 
 get_mission_by_id(id)
-מחזירה משימה אחת לפי ID, או None
+מחזיר המסםר אחד לפי מספר זיהוי
 
 assign_mission(m_id, a_id)
 משייכת משימה לסוכן
@@ -149,7 +151,8 @@ update_mission_status(id, status)
 משמשת לכל שינוי סטטוס
 
 get_open_missions_by_agent(id)
-מחזירה את המשימות של הסוכן במצבים האלה בלבד:
+מחזירה את המשימות של הסוכן במצבים האלה בלבד
+
 ASSIGNED/IN_PROGRESS
 
 count_all_missions()
@@ -162,7 +165,7 @@ count_open_missions()
 סופרת משימות פתוחות
 
 count_critical_missions()
-סופרת משימות מסוג CRITICAL
+סופרת משימות מסוג קריטי
 
 get_top_agent()
 מחזירה את הסוכן עם מספר המשימות שהושלמו הגבוה ביותר
@@ -176,11 +179,12 @@ get_top_agent()
 Junior / Senior / Commander
 
 2
+המספרים 
 difficulty & importance
 חייבים להיות בין 1 ל-10 — אחרת שגיאה
 
-3
-risk_level מחושב אוטומטית בעת יצירת משימה — המשתמש לא שולח אותו
+3 
+רמת הסיכון מחושבת אוטומטית בעת יצירת משימה — המשתמש לא שולח אותה
 
 4
 סוכן לא פעיל לא יכול לקבל משימות
