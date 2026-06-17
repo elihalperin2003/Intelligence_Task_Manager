@@ -5,7 +5,10 @@ class AgentDB:
         self.conn = connection
         self.cursor = self.conn.connection.cursor
     
-    def create_agent(self, name, specialty, agent_rank):
+    def create_agent(self, data:dict):
+        name = data["name"]
+        specialty = data["specialty"]
+        agent_rank = data["agent_rank"]
         with self.cursor() as cur:
             cur.execute(
                 """
@@ -97,6 +100,7 @@ class AgentDB:
 agent_db = AgentDB(dB_connection)
 
 print(agent_db.get_all_agents())
-print(agent_db.count_active_agents())
+print(agent_db.create_agent({"name": "eli", "specialty":"soldier", "agent_rank": "Senior"}))
+print(agent_db.get_all_agents())
 
 #agent_db.update_agent(2,{"name": "lam", "specialty": "poops"})

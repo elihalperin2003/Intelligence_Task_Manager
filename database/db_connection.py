@@ -6,6 +6,7 @@ class DB_connection:
         self.get_connection()
         self.create_database()
         self.create_tables()
+    
     def get_connection(self):
         if not self.connection or not self.connection.is_connected():
             self.connection = mysql.connector.connect(
@@ -41,10 +42,10 @@ class DB_connection:
                 title VARCHAR(50) NOT NULL,
                 description TEXT NOT NULL,
                 location VARCHAR(50) NOT NULL,
-                difficulty INT NOT NULL,
-                importance INT NOT NULL,
-                status ENUM("NEW", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "FAILED", "CANCELLED")  NOT NULL,
-                risk_level ENUM("LOW", "MEDIUM", "HIGH", "CRITICAL"),
+                difficulty INT CHECK(difficulty BETWEEN 1 AND 10) NOT NULL,
+                importance INT CHECK(importance BETWEEN 1 AND 10) NOT NULL,
+                status ENUM("NEW", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "FAILED", "CANCELLED") DEFAULT "NEW" NOT NULL,
+                risk_level ENUM("LOW", "MEDIUM", "HIGH", "CRITICAL") NOT NULL,
                 assigned_agent_id INT DEFAULT NULL
                 )"""
             )
@@ -53,6 +54,7 @@ class DB_connection:
     def commit(self):
         if self.connection and self.connection.is_connected():
             self.connection.commit()
+    
     def close(self):
         if self.connection and self.connection.is_connected():
             self.connection.close()
@@ -60,3 +62,4 @@ class DB_connection:
 
 
 dB_connection = DB_connection()
+dB_connection.opp()
