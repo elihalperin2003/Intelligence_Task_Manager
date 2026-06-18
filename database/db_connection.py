@@ -1,12 +1,13 @@
 import mysql.connector
 
+
 class DB_connection:
     def __init__(self):
         self.connection = None
         self.get_connection()
         self.create_database()
         self.create_tables()
-    
+
     def get_connection(self):
         if not self.connection or not self.connection.is_connected():
             self.connection = mysql.connector.connect(
@@ -23,8 +24,7 @@ class DB_connection:
 
     def create_tables(self):
         with self.connection.cursor() as cur:
-            cur.execute(
-                """
+            cur.execute("""
                 CREATE TABLE IF NOT EXISTS agents(
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 name VARCHAR(50) NOT NULL,
@@ -33,10 +33,8 @@ class DB_connection:
                 completed_missions INT DEFAULT 0 NOT NULL,
                 failed_missions INT DEFAULT 0 NOT NULL,
                 agent_rank ENUM("Junior", "Senior", "Commander") NOT NULL
-                )"""
-            )
-            cur.execute(
-                """
+                )""")
+            cur.execute("""
                 CREATE TABLE IF NOT EXISTS missions(
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 title VARCHAR(50) NOT NULL,
@@ -47,19 +45,16 @@ class DB_connection:
                 status ENUM("NEW", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "FAILED", "CANCELLED") DEFAULT "NEW" NOT NULL,
                 risk_level ENUM("LOW", "MEDIUM", "HIGH", "CRITICAL") NOT NULL,
                 assigned_agent_id INT DEFAULT NULL
-                )"""
-            )
+                )""")
         self.commit()
 
     def commit(self):
         if self.connection and self.connection.is_connected():
             self.connection.commit()
-    
+
     def close(self):
         if self.connection and self.connection.is_connected():
             self.connection.close()
 
 
-
 dB_connection = DB_connection()
-

@@ -211,6 +211,33 @@ CRITICAL
 
 ----------------------------
 
+endpoints
+
+[POST] agents/ יצירת סוכן חדש
+[GET] agents/ הצגת כל הסוכנים
+[GET] agents/{id} ID הצגת סוכן לפי
+[PUT] agents/{id} עדכון סוכן 
+[PUT] agents/{id}/deactivate השבתת סוכן
+[GET] agents/{id}/performance ביצועי סוכן 
+
+[POST] missions/ יצירת משימה חדשה
+[GET] missions/ הצגת כל המשמימות
+[GET] /missions/{id} ID לפי משימה
+[PUT] /missions/{id}/assign/{agent_id} שיוך סוכן למשימה
+[PUT] /missions/{id}/start התחלת משימה
+[PUT] /missions/{id}/complete סיום המשימה בהצלחה
+[PUT] /missions/{id}/fail סיום המשימה בכשלון
+[PUT] /missions/{id}/cancel ביטול המשימה לפני ביצועה
+
+[GET] /reports/summary סיכום כללי
+[GET] /reports/missions-by-status דוח מצב סטטוס המשימות
+[GET] /reports/top-agent מציאת הסוכן המצטיין
+
+----------------------------
+
+
+----------------------------
+
 הוראות הרצה
 
 docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 \
