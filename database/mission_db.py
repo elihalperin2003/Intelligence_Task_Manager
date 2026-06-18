@@ -1,4 +1,4 @@
-from db_connection import dB_connection
+from database.db_connection import dB_connection
 
 
 class MissionDB:

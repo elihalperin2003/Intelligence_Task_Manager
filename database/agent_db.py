@@ -1,5 +1,5 @@
-from db_connection import dB_connection
-from mission_db import mission_db
+from database.db_connection import dB_connection
+from database.mission_db import mission_db
 
 
 class AgentDB:
@@ -117,7 +117,7 @@ class AgentDB:
 
 agent_db = AgentDB(dB_connection)
 
-print(agent_db.get_all_agents())
+# print(agent_db.get_all_agents())
 # print(agent_db.get_agent_performance(id))
 # print(agent_db.create_agent({"name": "eli", "specialty":"soldier", "agent_rank": "Senior"}))
 # print(agent_db.get_all_agents())
