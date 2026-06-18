@@ -47,7 +47,7 @@ class AgentDB:
                 (values),
             )
             self.conn.commit()
-        return f"{id} - created successfully"
+        return f"{id} - updated successfully"
 
     def deactivate_agent(self, id):
         with self.cursor() as cur:
@@ -101,7 +101,7 @@ class AgentDB:
         if total == 0:
             success_rate = 0
         else:
-            success_rate = round(complated / failed * 100, 2)
+            success_rate = f"{round(complated / failed * 100, 2)} %"
         return {"total": total, "failed": failed, "complated": complated, "success_rate": success_rate}
 
     def count_active_agents(self):
