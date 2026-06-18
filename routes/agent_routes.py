@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from database.agent_db import agent_db
-from utils.helper import is_number, is_id_exists, is_arguments_correct, is_ramk_correct, is_parmeters_exists
+from utils.agents_helper import is_number, is_id_exists, is_arguments_correct, is_ramk_correct, is_parmeters_exists
 
 route = APIRouter()
 
@@ -9,12 +9,9 @@ route = APIRouter()
 @route.post("")
 def create_new_agent(data_from_user: dict):
     is_parmeters_exists(data_from_user)
-    name = data_from_user["name"]
-    specialty = data_from_user["specialty"]
     agent_rank = data_from_user["agent_rank"]
     is_ramk_correct(agent_rank)
-    data = {"name": name, "specialty": specialty, "agent_rank": agent_rank}
-    msg = agent_db.create_agent(data)
+    msg = agent_db.create_agent(data_from_user)
     return {"message": msg, "data": []}
 
 

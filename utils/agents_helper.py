@@ -4,6 +4,8 @@ from database.agent_db import agent_db
 
 
 def is_parmeters_exists(data_from_user: dict):
+    if not data_from_user:
+        raise HTTPException(status_code=422, detail="data Not exists")
     try:
         name = data_from_user["name"]
         specialty = data_from_user["specialty"]
