@@ -135,16 +135,4 @@ class MissionDB:
         return data
 
 
-# print(agent_db.get_all_agents())
-
-
 mission_db = MissionDB(dB_connection)
-# print(mission_db.get_all_missions())
-# print(mission_db.get_top_agent())
-# # print(mission_db.get_mission_by_id(1))
-# print(mission_db.get_open_missions_by_agent(1))
-# print(mission_db.count_all_missions())
-# print(mission_db.count_by_status("NEW"))
-# print(mission_db.count_critical_missions())
-# print(mission_db.create_mission({"title": "dream", "description": "to_dream", "location": "JLM", "difficulty": 9, "importance": 9}))
-# print(mission_db.count_critical_missions())
