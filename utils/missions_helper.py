@@ -33,11 +33,24 @@ def is_one_digit(num):
         raise HTTPException(status_code=400, detail=f"{num} is not between 1 and 10")
 
 
-def is_status_new(id):
-    if mission_db.get_mission_by_id(id)["status"] != "NEW":
-        raise HTTPException(status_code=400, detail=f"{id} - Not in status NEW")
+def is_status(id, statuses):
+    mission = mission_db.get_mission_by_id(id)
+    if mission["status"] not in statuses:
+        raise HTTPException(status_code=400, detail=f"{id} - Not in status {statuses}")
 
 
 def is_active(id):
     if agent_db.get_agent_by_id(id)["is_active"] == False:
         raise HTTPException(status_code=400, detail=f"{id} - the agent is not active")
+
+
+def is_more_three_missions(id):
+    if mission_db.count_open_missions(id) >= 3:
+        raise HTTPException(status_code=400, detail="There are 3 missions")
+
+
+def is_critical(id_a, id_m):
+    agent = agent_db.get_agent_by_id(id_a)
+    mission = mission_db.get_mission_by_id(id_m)
+    if mission["risk_level"] == "CRITICAL" and agent["agent_rank"] != "Commander":
+        raise HTTPException(status_code=400, detail="only Comandor can make missions in status CRITICAL!")

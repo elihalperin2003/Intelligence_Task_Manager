@@ -105,11 +105,13 @@ class MissionDB:
 
     def count_open_missions(self):
         with self.cursor() as cur:
-            cur.execute("""
+            cur.execute(
+                """
                 SELECT COUNT(*)
                 FROM missions
-                WHERE status IN ("NEW", "ASSIGNED", "IN_PROGRESS")
-                """)
+                AND status IN ("NEW", "ASSIGNED", "IN_PROGRESS")
+                """,
+            )
             data = cur.fetchone()
         return data[0]
 
